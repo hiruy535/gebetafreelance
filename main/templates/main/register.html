@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style type="text/css">
+  .form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+.form-signin .checkbox {
+  font-weight: 400;
+}
+.form-signin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.h3{
+	text-align: center;
+}
+.form-signin input[type="email"]{
+  margin-bottom: 10px;
+}
+
+.form-signin input[type="username"]{
+  margin-bottom: 10px;
+}
+
+.form-signin input[type="password"]{
+  margin-bottom: -1px;
+}
+</style>
+
+    <form class="form-signin" method="post"> {% csrf_token %}
+		  <img style="margin-left:18%" class="mb-4" src="{% static 'images/icons.png'%}" alt="icons" width="190" height="190">
+		  <h1 class="h3 mb-3 font-weight-normal" id="title" >Register Form</h1>
+		  <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+		  <input name="username" type="username" id="inputText" class="form-control" placeholder="User Name" required>
+		  <input name="password1" type="password" id="inputPassword1" class="form-control" placeholder="Password" required>
+		  <input name="password2" type="password" id="inputPassword2" class="form-control" placeholder="Confirm Password" required>
+
+      
+      <input style="display: none;" type="hidden" name="genderValue" id="genderValue">
+
+      <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="Male" checked>
+      <label class="form-check-label" for="inlineRadio1">Male</label>
+      </div>
+      <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Female">
+      <label class="form-check-label" for="inlineRadio1">Female</label>
+      </div>
+      <h1 id="wewe"></h1>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+      {% for field in registration_form %}
+				{% for error in field.errors %}
+					<p style="color: red;"> {{error}}</p>
+				{% endfor %}
+			{% endfor %}
+
+			{% if registration_form.non_field_errors %}
+					<p style="color: red;"> {{registration_form.non_field_errors}}</p>
+	  		{% endif %}
+		</form>
+
+    <script type="text/javascript">
+    const genderValue = document.querySelector('#genderValue');
+    const forms = document.getElementsByName('inlineRadioOptions');
+     for (var i=0; i <forms.length;i++){
+        if( forms[i].checked ) {
+          genderValue.value = forms[i].value
+          console.log(genderValue.value)
+        }
+        forms[i].onclick = function(e) {
+          genderValue.value =  e.target.value
+          console.log(genderValue.value);
+        };
+
+      }
+      
+    </script>
+{% endblock content %}
+{% block loglinks %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'main:home_page' %}">Home</a>
+      </li>
+      <li class="nav-item" >
+        <a class="nav-link" href="{% url 'main:login' %}">Log in</a>
+      </li>
+      <li class="nav-item" >
+        <a class="nav-link active" href="{% url 'main:register' %}">Become a Seller</a>
+      </li>
+{% endblock loglinks %}

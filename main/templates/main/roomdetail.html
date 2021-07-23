@@ -1,0 +1,154 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<style>
+.checked{
+    color:#FFD700;
+    }
+  #catagory-link{
+    text-decoration: none;
+    color:black;
+  }
+  #catagory-link:hover {
+    color: #6C9BE9;
+  }
+  .tab-link a:link{
+    text-decoration: none;
+    border-right: 1px solid black;
+    padding: 1em 2.17em;
+    text-transform: uppercase;
+  }
+  .tab-link a:hover{
+    color: #6C9BE9;
+    border-bottom: 3px solid #4CAF50;
+  }
+  .tab-link a.active{
+    color: #4CAF50;
+    border-bottom: 3px solid #4CAF50;
+  }
+  a.active:after {
+    border-bottom:none;
+    color:black;
+  }
+</style>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="navbar-nav">
+      {% for catagorys in catagorys%}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'main:roomdetail' catagory=catagorys %}">{{catagorys}}</a>
+        </li>
+      {%  endfor %}
+    </ul>
+</nav>
+<div style="padding:20px;margin:10px;">
+    <h6><span><a id="catagory-link" href="{% url 'main:home_page' %}">Catagory></a></span> {{ ids }}</h6>
+</div>
+
+  <div class="row mx-auto">
+        
+  {% for catagory_users in users %}
+  <div class="col-md-3">
+  <a id="catagory-link" href="{% url 'main:singleview' singleuser=catagory_users.id %}" >
+    <div class="card" style="width: 18rem; margin: 20px 10px;" >
+
+          <img src="{{catagory_users.imageURL}}" class="card-img-top" style="height: 11rem; " alt="{{room.roomname}}">
+          <div class="card-body" style="box-shadow:0 0 20px 7px rgba(0,0,0,0.1);">
+            <h5 class="card-title">{{ catagory_users }}</h5>
+
+            <h5>Price: {{ catagory_users.car_price }}</h5>
+            </a>
+            <form class="row" name="starForm" method="get" enctype="multipart/form-data">{% csrf_token %}
+              <div class="container mr-auto" type="text" id="{{catagory_users.total_rate}}" name="starRate">
+                <span class="fa fa-star checked" id="1"></span>
+                <span class="fa fa-star checked" id="2"></span>
+                <span class="fa fa-star checked" id="3"></span>
+                <span class="fa fa-star" id="4"></span>
+                <span class="fa fa-star" id="5"></span>
+                <h1 hidden name="items_id" value="{{catagory_users.id}}"></h1>
+              </div>
+            </form>
+          </div>
+        </div>
+    </div>
+  {% endfor %}
+
+</div>
+
+<script >
+
+  const star = document.getElementsByName('starRate')
+  var rate_size = 0
+  for (var i=0; i <star.length;i++){
+      const stars = Array.from(star[i].children)
+
+      const starHandiler = (size) =>{
+        for(let i=0; i < stars.length;i++){
+            if(i <= (size-1)){
+              stars[i].classList.add("checked")
+            }
+            else{
+              stars[i].classList.remove("checked")
+            }
+
+        }
+      }
+        stars.forEach(item=> item.addEventListener('mouseover',(event)=>{
+          rate_size = event.target.parentElement.id
+          starHandiler(event.target.id)
+          const elem = event.target.parentElement
+          elem.value = event.target.id
+          console.log(elem.value)
+          //console.log(event.target.id)
+      }));
+
+
+          rate_size = star[i].id
+          console.log(rate_size)
+          starHandiler(rate_size);
+
+
+
+      stars.forEach(item=> item.addEventListener('click',(event)=>{
+          const elem = event.target.parentElement
+          const form = elem.parentElement
+          var star_id = event.target.id
+          var item_id = stars[5].getAttribute("value")
+          console.log("id: "+ item_id)
+          event.preventDefault();
+          $.ajax({
+            type: 'POST',
+            url: '{% url "main:addroom" %}' ,
+            data: {
+              csrfmiddlewaretoken: '{{ csrf_token }}',
+              'starRate' : star_id,
+              'item_id' : item_id
+            },
+            success: function(response){
+              console.log(response.starRate + response.item_id)
+            }
+
+          });
+
+          console.log(event.target)
+    }))
+
+  }
+
+</script>
+{% endblock content %}
+
+{% block likns %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'main:home_page' %}">Home <span class="sr-only">(current)</span></a>
+</li>
+{% if request.user.is_authenticated %}
+{% if request.user.firstname != null %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'main:addroom' %}">Add Service</a>
+    </li>
+  {% endif %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'chat:room' room_name=other_users %}">Message </a>
+</li>
+{% endif %}
+{% endblock likns %}

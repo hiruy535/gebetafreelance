@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style media="screen">
+  .form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+  }
+  .form-signin .checkbox {
+    font-weight: 400;
+  }
+  .form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+  }
+  .form-signin .form-control:focus {
+    z-index: 2;
+  }
+  .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .h3{
+  	text-align: center;
+  }
+</style>
+
+<form class="form-signin" method="post"> {% csrf_token %}
+  <img style="margin-left:18%" class="mb-4" src="{% static 'images/icons.png'%}" alt="icons" width="190" height="190">
+  <h1 class="h3 mb-3 font-weight-normal" id="title" >Please Login</h1>
+  <input name="email" type="text" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+  <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+  <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+  </div>
+  {% for field in login_form %}
+			{% for error in field.errors %}
+					<p style="color: red;"> {{error}}</p>
+			{% endfor %}
+		{% endfor %}
+		{% if login_form.non_field_errors %}
+				<p style="color: red;"> {{login_form.non_field_errors}}</p>
+  {% endif %}
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+</form>
+
+{% endblock content %}
+
+{% block loglinks %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'main:home_page' %}">Home</a>
+      </li>
+      <li class="nav-item" >
+        <a class="nav-link active" href="{% url 'main:login' %}">Log in</a>
+      </li>
+      <li class="nav-item" >
+        <a class="nav-link" href="{% url 'main:register' %}">Become a Seller</a>
+      </li>
+{% endblock loglinks %}

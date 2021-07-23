@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style >
+  .file {
+  visibility: hidden;
+  position: absolute;
+}
+</style>
+<div class="container" style="margin-top:15px;">
+  <h1>Update Service Detail</h1>
+<header class="container-md">
+<form  method="POST" enctype="multipart/form-data">{% csrf_token %}
+  <div class="form-group">
+    <label for="exampleInputEmail1">Service Name</label>
+    <input name="roomname" type="text" class="form-control" id="exampleInputEmail1" placeholder="website design,camera man,social media..." value="{{service.roomname}}" required>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Service Price</label>
+    <input name="car_price" type="text" class="form-control" id="exampleInputPassword1" placeholder="10$, 100$..." value="{{service.car_price}}" required>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Service Discription</label>
+    <textarea name="car_description" class="form-control" id="exampleFormControlTextarea1" rows="3">{{service.car_description}}</textarea>
+  </div>
+  <label for="exampleFormControlTextarea1">Choose Catagory</label><br>
+  <div class="input-group mb-3">
+    <select name="catagory" class="custom-select" id="inputGroupSelect02">
+      <option selected >{{service.catagory}}</option>
+      {% for catagory in catagorys%}
+        <option value="{{catagory}}">{{catagory}}</option>
+      {% endfor %}
+    </select>
+    <div class="input-group-append">
+      <label class="input-group-text" for="inputGroupSelect02">Catagory</label>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlFile1">Choose Your Service tag image</label>
+    <div class="ml-2 col-sm-6">
+      <div id="msg"></div>
+        <input  type="file" name="roomimage" class="file" accept="image/*">
+        
+    </div>
+    <style type="text/css">
+      .flex{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: space-around;
+      }
+    </style>
+    <div class="flex">
+    <div class="col-md-3 inputs">
+      {% if service.roomimage.url != null %}
+      <img src="{{service.roomimage.url}}" name="img1" type="button" class="browse" width="100%" height="230" id="preview" class="img-thumbnail">
+      {% else %}
+      <img src="{% static 'images/add-image.png' %}" name="img1" type="button" class="browse" width="100%" height="230" id="preview" class="img-thumbnail">
+      {% endif %}
+      <input  type="file" name="roomimage" class="file" accept="image/*">
+    </div>
+    <div class="col-md-3 inputs">
+      {% if service.roomimage2.url != null %}
+      <img src="{{service.roomimage2.url}}" name="img2" type="button" class="browse" width="100%" height="230" id="preview" class="img-thumbnail">
+      {% else %}
+      <img src="{% static 'images/add-image.png' %}" name="img2" type="button" class="browse" width="100%" height="230" id="preview" class="img-thumbnail">
+      {% endif %}
+      <input  type="file" name="roomimage2" class="file" accept="image/*">
+    </div>
+    <div class="col-md-3 inputs">
+      {% if service.roomimage3.url != null %}
+      <img src="{{service.roomimage3.url}}" name="img3" type="button" class="browse" width="100%" height="230" id="preview" class="img-thumbnail">
+      {% else %}
+      <img src="{% static 'images/add-image.png' %}" name="img3" type="button" class="browse" width="100%" height="230" id="preview" class="img-thumbnail">
+      {% endif %}
+      <input  type="file" name="roomimage3" class="file" accept="image/*">
+    </div>
+    <div class="col-md-3 inputs">
+      {% if service.roomimage4.url != null %}
+      <img src="{{service.roomimage4.url}}" name="img4" type="button" class="browse" width="100%" height="230"  class="img-thumbnail">
+      {% else %}
+      <img src="{% static 'images/add-image.png' %}" name="img4" type="button" class="browse" width="100%" height="230" id="preview" class="img-thumbnail">
+      {% endif %}
+      <input  type="file" name="roomimage4" class="file" accept="image/*">
+    </div>
+  </div>
+  </div>
+  
+  <script type="text/javascript">
+    
+   var imgs= '';
+  var in_btn = ''
+  document.querySelectorAll(".inputs").forEach((img) => {
+            img.onclick = function() {
+            //var file = $(this).parents().find(".file");
+            //file[0].click();
+            imgs = img.firstElementChild
+            in_btn = img.lastElementChild
+            in_btn.click();
+            console.log(in_btn)
+          }  
+      });
+
+  $('input[type="file"]').change(function(e) {
+    var fileName = e.target.files[0].name;
+    $("#file").val(fileName);
+    console.log(e.target);
+    console.log(in_btn.files[0].name)
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      // get loaded data and render thumbnail.
+      imgs.src = e.target.result;
+    };
+    // read the image file as a data URL.
+    reader.readAsDataURL(this.files[0]);
+  });
+
+
+    document.getElementById("preview").src= "{{service.imageURL}}";
+    var fileName = "{{service.roomimage}}";
+    $("#file").val(fileName);
+    
+  
+
+  </script>
+ <style>
+
+  .tab-link a:link{
+    text-decoration: none;
+    border-right: 1px solid rgb(185, 184, 184);
+    padding: 1em 5.15em;
+    text-transform: uppercase;
+  }
+  .tab-link a:hover{
+    color:#4CAF50;
+    border-bottom: 3px solid #4CAF50;
+  }
+  .tab-link a.active{
+    color: #4CAF50;
+    border-bottom: 3px solid #4CAF50;
+  }
+  .tab-link a.active:after {
+    border-bottom:none;
+    color:black;
+    }
+  </style>
+<div class="col-md-8">
+  <h5 class="d-flex justify-content-between align-items-center mb-3">
+    <span class="text-muted">Price Standard</span>
+  </h5>
+
+  <ul class="list-group mb-3">
+    <li class="list-group-item d-flex justify-content-between lh-condensed tab-link" style="padding:0px;">
+        
+        <a name="pricelink" class="active justify-content-between" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Basic</a>
+
+        <a name="pricelink" class="justify-content-between" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Standard</a>
+
+        <a name="pricelink" class="justify-content-between" style="border-right:none;" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">Premium</a>
+
+
+    </li>
+    <li class="list-group-item justify-content-between lh-condensed" style="height:30rem;">
+
+      <div class="">
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+            <div class="d-flex justify-content-between lh-condensed" style="padding-bottom:3rem;padding-top:1rem;">
+              <div>
+                <label for="exampleInputEmail1">Price Title</label>
+                <input name="basic_price_title" type="text" class="form-control" id="exampleInputEmail1" placeholder="Help in your project" value="{{service.pricebasic.price.price_title}}">
+              </div>
+              <div>
+                <label for="exampleInputEmail1">Price Number</label>
+                <input name="basic_price" type="number" class="form-control" id="exampleInputEmail1" placeholder="$12" value="{{service.pricebasic.price.price_number}}">
+              </div>
+            </div>
+            <label for="exampleFormControlTextarea1">Price Discription</label>
+            <textarea name="basic_price_discription" class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="if you need me for a game or project. *includes all of the above">{{service.pricebasic.price.price_description}}</textarea>
+            <div class="d-flex justify-content-between lh-condensed" style="padding-bottom:1rem;padding-right:6rem;padding-top:1rem;">
+              <div>
+                <label for="exampleInputEmail3"><i class="fa fa-clock-o" aria-hidden="true">  <strong> Delivery Day</strong></i></label>
+                <input name="basic_price_delivery" type="number" class="form-control" id="exampleInputEmail3" placeholder="1 day" value="{{service.pricebasic.price.price_delivery}}">
+              </div>
+              <div>
+                <label for="exampleInputEmail3"><i class="fa fa-refresh" aria-hidden="true"><strong>  Revision</strong></i></label>
+                <div id="exampleInputEmail3" >
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="basic_price_revision" id="inlineRadio1" value="Yes" checked>
+                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="basic_price_revision" id="inlineRadio2" value="No">
+                  <label class="form-check-label" for="inlineRadio1">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div  style="padding-bottom:3rem;">
+                <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">1 Level</span><br>
+                <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">Include Design</span><br>
+                <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">Include Source Code</span>
+            </div>
+
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      
+    </div>
+  </div>
+</div>          
+       </div>
+          <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+            <div class="d-flex justify-content-between lh-condensed" style="padding-bottom:3rem;padding-top:1rem;">
+              <div>
+                <label for="exampleInputEmail1">Price Title</label>
+                <input name="standard_price_title" type="text" class="form-control" id="exampleInputEmail1" placeholder="Help in your project" value="{{service.pricestandard.price.price_title}}">
+              </div>
+              <div>
+                <label for="exampleInputEmail1">Price Number</label>
+                <input name="standard_price" type="number" class="form-control" id="exampleInputEmail1" placeholder="$12" value="{{service.pricestandard.price.price_number}}">
+              </div>
+            </div>
+            <label for="exampleFormControlTextarea1">Price Discription</label>
+            <textarea name="standard_price_discription" class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="if you need me for a game or project. *includes all of the above">{{service.pricestandard.price.price_description}}
+            </textarea>
+            <div class="d-flex justify-content-between lh-condensed" style="padding-bottom:1rem;padding-right:6rem;padding-top:1rem;">
+              <div>
+                <label for="exampleInputEmail3"><i class="fa fa-clock-o" aria-hidden="true">  <strong> Delivery Day</strong></i></label>
+                <input name="standard_price_delivery" type="number" class="form-control" id="exampleInputEmail3" placeholder="1 day" value="{{service.pricestandard.price.price_delivery}}">
+              </div>
+              <div>
+                <label for="exampleInputEmail3"><i class="fa fa-refresh" aria-hidden="true"><strong>  Revision</strong></i></label>
+                <div id="exampleInputEmail3" >
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="standard_price_revision" id="inlineRadio1" value="Yes" checked>
+                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="standard_price_revision" id="inlineRadio2" value="No">
+                  <label class="form-check-label" for="inlineRadio1">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <div  style="padding-bottom:3rem;">
+                  <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">1 Level</span><br>
+                  <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">Include Design</span><br>
+                  <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">Include Source Code</span>
+              </div>
+          </div>
+          <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+            <div class="d-flex justify-content-between lh-condensed" style="padding-bottom:3rem;padding-top:1rem;">
+              <div>
+                <label for="exampleInputEmail1">Price Title</label>
+                <input name="premium_price_title" type="text" class="form-control" id="exampleInputEmail1" placeholder="Help in your project" value="{{service.pricepremium.price.price_title}}">
+              </div>
+              <div>
+                <label for="exampleInputEmail1">Price Number</label>
+                <input name="premium_price" type="number" class="form-control" id="exampleInputEmail1" placeholder="$12" value="{{service.pricepremium.price.price_number}}">
+              </div>
+            </div>
+            <label  for="exampleFormControlTextarea1">Price Discription</label>
+            <textarea name="premium_price_discription" class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="if you need me for a game or project. *includes all of the above">{{service.pricepremium.price.price_description}}</textarea>
+           <div class="d-flex justify-content-between lh-condensed" style="padding-bottom:1rem;padding-right:6rem;padding-top:1rem;">
+                <div>
+                  <label for="exampleInputEmail3"><i class="fa fa-clock-o" aria-hidden="true">  <strong> Delivery Day</strong></i></label>
+                  <input name="premium_price_delivery" type="number" class="form-control" id="exampleInputEmail3" placeholder="1 day" value="{{service.pricepremium.price.price_delivery}}">
+                </div>
+                <div>
+                  <label for="exampleInputEmail3"><i class="fa fa-refresh" aria-hidden="true"><strong>  Revision</strong></i></label>
+                  <div id="exampleInputEmail3" >
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="premium_price_revision" id="inlineRadio1" value="Yes" checked>
+                    <label class="form-check-label" for="inlineRadio1">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="premium_price_revision" id="inlineRadio2" value="No">
+                    <label class="form-check-label" for="inlineRadio1">No</label>
+                    </div>
+                  </div>
+                </div>
+                
+            </div>
+            <div  style="padding-bottom:3rem;">
+                <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">1 Level</span><br>
+                <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">Include Design</span><br>
+                <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">Include Source Code</span>
+            </div>  
+                 
+        </div>
+      </div>
+
+    </li>
+
+  </ul>
+
+</div>
+</header>
+    <button type="submit" class="btn btn-primary btn-lg" style="float:right;">Update Service</button>
+  </form>
+
+</div>
+
+
+{% endblock content %}
+
+{% block likns %}
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'main:home_page' %}">Home </a>
+  </li>
+  {% if request.user.is_authenticated %}
+  {% if request.user.firstname != null %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'main:addroom' %}">Add Service</a>
+    </li>
+  {% endif %}
+  <li class="nav-item">
+  <a class="nav-link" href="{% url 'chat:room' room_name=other_users %}">Message </a>
+</li>
+  {% endif %}
+{% endblock likns %}

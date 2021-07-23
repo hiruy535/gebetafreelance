@@ -1,0 +1,48 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" media="screen" />
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<div class="col-sm-12" >
+	<div class="d-inline-flex mx-auto">
+      {% for service in services %} 
+        <div class="card" style="width: 18rem; margin: 20px 10px;" >
+          <img src="{{service.imageURL}}" class="card-img-top" style="height: 11rem; "
+          	alt="{{service.roomname}}">
+          <div class="card-body" style="box-shadow:0 0 20px 7px rgba(0,0,0,0.1);">
+            <h5 class="card-title">{{ service }}</h5>
+            <div class="d-inline-flex justify-content-end" >
+	          	<a href="{% url 'main:serviceupdate' service_id=service.id %}"><i class="fa fa-pencil " aria-hidden="true" Style="margin-right:1.0rem;">edit</i>
+	          	</a>
+	          	<a href=""><i class="fa fa-trash" aria-hidden="true" Style="margin-right:1.0rem;">delete</i></a>
+          	</div>
+          </div>
+
+        </div>
+      {% endfor %}
+     </div>
+</div>
+{% endblock content %}
+
+{% block likns %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'main:home_page' %}">Home <span class="sr-only">(current)</span></a>
+</li>
+{% if request.user.is_authenticated %}
+{% if request.user.firstname != null %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'main:addroom' %}">Add Service</a>
+    </li>
+  {% endif %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'chat:room' room_name=other_users %}">Message </a>
+</li>
+{% endif %}
+{% endblock likns %}

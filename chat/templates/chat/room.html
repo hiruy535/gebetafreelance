@@ -1,0 +1,560 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load staticfiles %}
+{% block content %}
+<style>
+  .container{max-width:1170px; margin:auto;}
+img{ max-width:100%;}
+.inbox_people {
+  background: #f8f8f8 none repeat scroll 0 0;
+  float: left;
+  overflow: hidden;
+  width: 40%; border-right:1px solid #c4c4c4;
+}
+.inbox_msg {
+  border: 1px solid #c4c4c4;
+  clear: both;
+  overflow: hidden;
+}
+.top_spac{ margin: 20px 0 0;}
+
+
+.recent_heading {float: left; width:40%;}
+.srch_bar {
+  display: inline-block;
+  text-align: right;
+  width: 60%; padding:
+}
+.headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
+
+.recent_heading h4 {
+  color: #05728f;
+  font-size: 21px;
+  margin: auto;
+}
+.srch_bar input{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}
+.srch_bar .input-group-addon button {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  padding: 0;
+  color: #707070;
+  font-size: 18px;
+}
+.srch_bar .input-group-addon { margin: 0 0 0 -27px;}
+
+.chat_ib h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
+.chat_ib h5 span{ font-size:13px; float:right;}
+.chat_ib p{ font-size:14px; color:#989898; margin:auto}
+.chat_img {
+  float: left;
+  width: 11%;
+}
+.chat_ib {
+  float: left;
+  padding: 0 0 0 15px;
+  width: 88%;
+}
+
+.chat_people{ overflow:hidden; clear:both;}
+.chat_list {
+  border-bottom: 1px solid #c4c4c4;
+  margin: 0;
+  padding: 18px 16px 10px;
+}
+.inbox_chat { height: 550px; overflow-y: scroll;}
+
+.active_chat{ background:#ebebeb;}
+
+.incoming_msg_img {
+  display: inline-block;
+  width: 6%;
+}
+.received_msg {
+  display: inline-block;
+  padding: 0 0 0 10px;
+  vertical-align: top;
+  width: 92%;
+ }
+ .received_withd_msg p {
+  background: #ebebeb none repeat scroll 0 0;
+  border-radius: 3px;
+  color: #646464;
+  font-size: 14px;
+  margin: 0;
+  padding: 5px 10px 5px 12px;
+  width: 100%;
+}
+.time_date {
+  color: #747474;
+  display: block;
+  font-size: 12px;
+  margin: 8px 0 0;
+}
+.received_withd_msg { width: 57%;}
+.mesgs {
+  float: left;
+  padding: 30px 15px 0 25px;
+  width: 60%;
+}
+
+ .sent_msg p {
+  background: #05728f none repeat scroll 0 0;
+  border-radius: 3px;
+  font-size: 14px;
+  margin: 0; color:#fff;
+  padding: 5px 10px 5px 12px;
+  width:100%;
+}
+.outgoing_msg{ overflow:hidden; margin:26px 0 26px;}
+.sent_msg {
+  float: right;
+  width: 46%;
+}
+.input_msg_write input {
+  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  border: medium none;
+  color: #4c4c4c;
+  font-size: 15px;
+  min-height: 48px;
+  width: 100%;
+}
+
+.type_msg {border-top: 1px solid #c4c4c4;position: relative;}
+.msg_send_btn {
+  background: #05728f none repeat scroll 0 0;
+  border: medium none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  font-size: 17px;
+  height: 33px;
+  position: absolute;
+  right: 0;
+  top: 11px;
+  width: 33px;
+}
+.messaging { padding: 0 0 50px 0;}
+.msg_history {
+  height: 516px;
+  overflow-y: auto;
+}
+</style>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <ul class="navbar-nav">
+      {% for catagorys in catagorys%}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'main:roomdetail' catagory=catagorys %}">{{catagorys}}</a>
+        </li>
+      {%  endfor %}
+    </ul>
+</nav>
+
+  <div style="padding:20px;margin:20px;">
+    <div class="row">
+            <div class="col-md-4 order-md-2 mb-4">
+              <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted">About Me</span>
+              </h4>
+              <ul class="list-group mb-3">
+                <li class="list-group-item justify-content-between lh-condensed" style="height:30rem;">
+                    <div class="tab-content" id="nav-tabContent">
+                      <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                        <div class="d-flex justify-content-between lh-condensed" style="padding-bottom:3rem;padding-top:1rem;">
+                          <div>
+                            <h6 class="my-0">Help In Your Project</h6>
+                          </div>
+                          <strong>$12</strong>
+                        </div>
+                        <p>if you need me for a game or project. *includes all of the above</p>
+                        <div class="d-flex justify-content-between lh-condensed" style="padding-bottom:1rem;padding-right:6rem;padding-top:1rem;">
+                            <i class="fa fa-clock-o" aria-hidden="true">  <strong>  1 day delivery</strong></i>
+                            <i class="fa fa-refresh" aria-hidden="true"><strong>  No revision</strong></i>
+                        </div>
+                        <div  style="padding-bottom:3rem;">
+                            <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">1 Level</span><br>
+                            <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">Include Design</span><br>
+                            <i class="fa fa-check text-success" aria-hidden="true"></i><span style="padding-left:1rem;">Include Source Code</span>
+                        </div>
+                        <button type="button" name="button" class="btn btn-success btn-lg btn-block">Continue</button>
+                      </div>
+                    </div>
+                </li>
+
+              </ul>
+              <form class="card p-2">
+                <div class="input-group" >
+                  <input id="contactplace" type="text" class="form-control" placeholder="Contact....">
+                  <div class="input-group-append">
+                    <button id="viewcontact" type="button" class="btn btn-secondary">View Contact</button>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+
+            <div class="col-md-8 order-md-1" data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+              
+                <h4 class="mb-3" id="overview">Talk With me</h4>
+
+              <form class="needs-validation" novalidate="">
+                <div class="mb-3">
+
+
+
+
+
+<div class="container">
+<div class="messaging">
+      <div class="inbox_msg">
+        <div class="inbox_people">
+          <div class="headind_srch">
+            <div class="recent_heading">
+              <h4>Recent</h4>
+            </div>
+            <div class="srch_bar">
+              <div class="stylish-input-group">
+                <input type="text" class="search-bar"  placeholder="Search" >
+                <span class="input-group-addon">
+                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                </span> </div>
+            </div>
+          </div>
+          <div class="inbox_chat">
+            {% for other in other_users %}
+
+              <a href="{% url 'chat:room' room_name=other.second.username %}">
+                <div class="chat_list active_chat">
+                  <div class="chat_people">
+                    {% if request.user.username != other.first.username %}  
+                        <div class="chat_img"> <img src="{{other.first.imageURL}}" alt="sunil"> </div>
+                        <div class="chat_ib">
+                           
+                        <h5>{{other.first.username}} <span class="chat_date">Dec 25</span></h5>
+                      {% elif request.user.username != other.second.username %}
+                        <div class="chat_img"> <img src="{{other.second.imageURL}}" alt="sunil"> </div>
+                        <div class="chat_ib">
+
+                        <h5>{{other.second.username}} <span class="chat_date">Dec 25</span></h5>
+                      {% endif %}
+                      {{other.message}}
+                      <p>{% with mychat|last as chat %}
+                            {{ chat.message }}
+                         {% endwith %} , ---which is a new approach to have all solutions
+                        astrology under one roof.</p>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            {% endfor %}
+            
+            
+            <div class="chat_list">
+              <div class="chat_people">
+                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                <div class="chat_ib">
+                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
+                  <p>Test, which is a new approach to have all solutions
+                    astrology under one roof.</p>
+                </div>
+              </div>
+            </div>
+            <div class="chat_list">
+              <div class="chat_people">
+                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                <div class="chat_ib">
+                  <h5>Rajput Sunil <span class="chat_date">Dec 25</span></h5>
+                  <p>Test, which is a new approach to have all solutions
+                    astrology under one roof.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mesgs">
+          <div class="msg_history">
+            {% for chat in object.chatmessage_set.all %}
+
+              {% if request.user == chat.user %}
+              <div class="outgoing_msg">
+                <div class="sent_msg">
+                  <p>{{ chat.message }}</p>
+                  <span class="time_date"> {{ chat.timestamp }} </span> </div>
+              </div>
+
+              {% else %}
+              <div class="incoming_msg">
+                <div class="incoming_msg_img"> <img src="{{ chat.user.imageURL }}" alt="sunil"> </div>
+                <div class="received_msg">
+                  <div class="received_withd_msg">
+                    <p>{{ chat.message }}</p>
+                    <span class="time_date"> {{ chat.timestamp }} </span></div>
+                </div>
+              </div>
+              {% endif %}
+
+            {% endfor %}
+
+          </div>
+          <form  method='POST'> {% csrf_token %}
+            <input type="hidden" id="myusername" value="{{ user.username }}">
+          <div class="type_msg">
+            <div class="input_msg_write">
+              <input id="chat-message-input" type="text" class="write_msg" placeholder="Type a message" />
+              <button id="chat-message-submit" value="Send" class="msg_send_btn" type="button">
+                <i class="fas fa-paper-plane" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div></div>
+                  
+                </div>
+
+                <div class="mb-3" id="aboutthisgig">
+                  <h5>About This Gig</h5>
+                  <p>I will code any idea you have into unity2d, unity3d or gamemaker. I have 5 years of experience in game development
+                    so I can assure you the best quality possible.</p>
+
+                </div>
+
+                <div class="mb-3">
+                  <label for="address">Address</label>
+                  <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+                  <div class="invalid-feedback">
+                    Please enter your shipping address.
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                  <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                </div>
+
+                <div class="row">
+                  <div class="col-md-5 mb-3">
+                    <label for="country">Country</label>
+                    <select class="custom-select d-block w-100" id="country" required="">
+                      <option value="">Choose...</option>
+                      <option>United States</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Please select a valid country.
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <label for="state">State</label>
+                    <select class="custom-select d-block w-100" id="state" required="">
+                      <option value="">Choose...</option>
+                      <option>California</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Please provide a valid state.
+                    </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label for="zip">Zip</label>
+                    <input type="text" class="form-control" id="zip" placeholder="" required="">
+                    <div class="invalid-feedback">
+                      Zip code required.
+                    </div>
+                  </div>
+                </div>
+                <hr class="mb-4">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="same-address">
+                  <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="save-info">
+                  <label class="custom-control-label" for="save-info">Save this information for next time</label>
+                </div>
+                <hr class="mb-4">
+
+                <h4 class="mb-3">Payment</h4>
+
+                <div class="d-block my-3">
+                  <div class="custom-control custom-radio">
+                    <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="">
+                    <label class="custom-control-label" for="credit">Credit card</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                    <label class="custom-control-label" for="debit">Debit card</label>
+                  </div>
+                  <div class="custom-control custom-radio">
+                    <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required="">
+                    <label class="custom-control-label" for="paypal">Paypal</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="cc-name">Name on card</label>
+                    <input type="text" class="form-control" id="cc-name" placeholder="" required="">
+                    <small class="text-muted">Full name as displayed on card</small>
+                    <div class="invalid-feedback">                Name on card is required
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="cc-number">Credit card number</label>
+                    <input type="text" class="form-control" id="cc-number" placeholder="" required="">
+                    <div class="invalid-feedback">
+                      Credit card number is required
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3 mb-3">
+                    <label for="cc-expiration">Expiration</label>
+                    <input type="text" class="form-control" id="cc-expiration" placeholder="" required="">
+                    <div class="invalid-feedback">
+                      Expiration date required
+                    </div>
+                  </div>
+                  <div class="col-md-3 mb-3">
+                    <label for="cc-expiration">CVV</label>
+                    <input type="text" class="form-control" id="cc-cvv" placeholder="" required="">
+                    <div class="invalid-feedback">
+                      Security code required
+                    </div>
+                  </div>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      <script src="{% static 'channels/js/websocketbridge.js' %}" type="text/javascript"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"
+              integrity="sha512-B4skI5FiLurS86aioJx9VfozI1wjqrn6aTdJH+YQUmCZum/ZibPBTX55k5d9XM6EsKePDInkLVrN7vPmJxc1qA=="
+              crossorigin="anonymous">
+      </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ==" crossorigin="anonymous"></script>
+      {{ room_name|json_script:"room-name" }}
+        <script>
+
+        const allmessage= document.querySelector('.msg_history');
+        //console.log(allmessage[0]);
+        
+        allmessage.scrollTop = allmessage.scrollHeight;
+        const appendmessage = (message,user,timestamp) => {
+          if ( user == me ){
+          const outgoing_msg = document.createElement('div');
+          outgoing_msg.classList.add('outgoing_msg');
+          const sent_msg = document.createElement('div');
+          sent_msg.classList.add('sent_msg');  
+          const msg = document.createElement('p');
+          msg.innerHTML = message;
+          const span = document.createElement('span');
+          span.classList.add('time_date');
+          span.innerHTML = timestamp;
+          sent_msg.append(msg);
+          sent_msg.append(span);
+          outgoing_msg.append(sent_msg);
+          allmessage.append(outgoing_msg);
+          }
+          else{
+            console.log('sfsdfsdf else')
+            const incoming_msg = document.createElement('div');
+            incoming_msg.classList.add('incoming_msg');
+            const incoming_msg_img = document.createElement('div');
+            incoming_msg_img.classList.add('incoming_msg_img');
+            const msg_img = document.createElement('img');
+            msg_img.src = "https://ptetutorials.com/images/user-profile.png"
+            const received_msg = document.createElement('div');
+            received_msg.classList.add('received_msg');
+            const received_withd_msg = document.createElement('div');
+            received_withd_msg.classList.add('received_withd_msg');
+            const msg = document.createElement('p');
+            msg.innerHTML = message;
+            const span = document.createElement('span');
+            span.classList.add('time_date');
+            span.innerHTML = timestamp;
+            received_withd_msg.append(msg);
+            received_withd_msg.append(span);
+            received_msg.append(received_withd_msg);
+            incoming_msg_img.append(msg_img);
+            incoming_msg.append(incoming_msg_img);
+            incoming_msg.append(received_msg);
+            allmessage.append(incoming_msg);
+          }
+          allmessage.scrollTop = allmessage.scrollHeight;
+        } 
+          
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const me = document.getElementById('myusername').value
+        //var   msgInput = document.getElementById('chat-message-inputs')
+        const webSocketBridge = new channels.WebSocketBridge();
+        webSocketBridge.connect('ws://'
+            + window.location.host
+            + '/ws'
+            + window.location.pathname);
+        webSocketBridge.listen(function(action, stream) {
+          console.log(action, stream);
+          console.log('im listening');
+        });
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws'
+            + window.location.pathname
+
+        );
+        chatSocket.listen = function(e){
+          console.log('im listening');
+        }
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            //document.querySelector('#chat-log').value += (data.message  + " via "+ data.username+'\n');
+            appendmessage(data.message,data.username,data.timestamp)
+
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+        chatSocket.onopen = function(e) {
+          document.querySelector('#chat-message-submit').onclick = function(e) {
+              const messageInputDom = document.querySelector('#chat-message-input');
+              const message = messageInputDom.value;
+              const d = moment().format('lll');
+              const showcontact= "showcontact";
+              chatSocket.send(JSON.stringify({
+                  'message': message ,
+                  'username': "{{request.user.username}}" ,
+                  'timestamp': d
+              }));
+              messageInputDom.value = '';
+          };
+          console.log('im listening---1');
+        };
+
+
+    </script>
+{% endblock content %}
+
+{% block likns %}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'main:home_page' %}">Home <span class="sr-only">(current)</span></a>
+</li>
+{% if request.user.is_authenticated %}
+{% if request.user.firstname != null %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'main:addroom' %}">Add Service</a>
+    </li>
+  {% endif %}
+<li class="nav-item active" >
+  <a class="nav-link" href="{% url 'chat:room' room_name=chat_user %}">Message </a>
+</li>
+{% endif %}
+{% endblock likns %}
