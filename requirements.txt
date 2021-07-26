@@ -1,4 +1,3 @@
-export DJANGO_SETTINGS_MODULE=mysites.settings
 aioredis==1.0.0
 asgiref
 async-timeout==3.0.1
