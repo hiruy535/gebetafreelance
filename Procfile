@@ -3,5 +3,6 @@ worker: python manage.py runworker -v2
 heroku addons:create heroku-redis
 export DJANGO_SETTINGS_MODULE=mysite.settings
 heroku config:set DJANGO_SETTINGS_MODULE=mysite.settings --account personal
+heroku ps:scale web=1 worker=1
 
 
