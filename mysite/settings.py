@@ -83,7 +83,7 @@ TEMPLATES = [
 
 AUTH_USER_MODEL = "main.Account"
 
-#WSGI_APPLICATION = 'mysite.wsgi.application'
+WSGI_APPLICATION = 'mysite.wsgi.application'
 
 
 # Database
@@ -120,7 +120,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [('127.0.0.1', 6379,'REDIS_URL','redis://localhost:6379')],
         },
     },
 }
