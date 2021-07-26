@@ -1,2 +1,1 @@
 python-3.8.6
-export DJANGO_SETTINGS_MODULE=mysites.settings
