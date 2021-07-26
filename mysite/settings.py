@@ -26,7 +26,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", __file__)
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'c(=q!!$a20ee6ssz@fh+i8whfr^w45*@o-3+p9sw-01k5g$7w7'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned on in productio
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
