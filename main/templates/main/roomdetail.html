@@ -51,7 +51,7 @@
   <a id="catagory-link" href="{% url 'main:singleview' singleuser=catagory_users.id %}" >
     <div class="card" style="width: 18rem; margin: 20px 10px;" >
 
-          <img src="static/images/{{catagory_users.imageURL}}" class="card-img-top" style="height: 11rem; " alt="{{room.roomname}}">
+          <img src="{{catagory_users.imageURL}}" class="card-img-top" style="height: 11rem; " alt="{{room.roomname}}">
           <div class="card-body" style="box-shadow:0 0 20px 7px rgba(0,0,0,0.1);">
             <h5 class="card-title">{{ catagory_users }}</h5>
 
