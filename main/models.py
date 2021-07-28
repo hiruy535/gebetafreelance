@@ -137,7 +137,7 @@ class Room(models.Model):
 		@property
 		def imageURL(self):
 			try:
-				url = "static"+self.roomimage.url
+				url = self.roomimage.url
 			except:
 				url = ''
 			return url
